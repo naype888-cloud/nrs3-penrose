@@ -3,6 +3,8 @@
 **Penrose's collapse time `ħ / ΔE` is a bound, not a lifetime** — at that time every unitary
 evolution still keeps a survival amplitude of at least `1/2`. Lean 4.
 
+**[▶ Try it: unitary vs collapse on the Bloch sphere](https://naype888-cloud.github.io/nrs3-penrose/)**
+
 ![NRS³ · Penrose](docs/figures/penrose1996_speed_limit.png)
 
 ## Results
