@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Penrose Bloch Sphere</title>
+<meta name="description" content="A superposition of two branches on the Bloch sphere: unitary evolution circles on the surface and comes back; a Diósi–Penrose-type collapse spirals inward.">
+<style>
+  :root { --bg: #fcfcfb; --panel: #fff; --ink: #0b0b0b; --ink2: #52514e; --muted: #8a8985;
+    --grid: #e4e3df; --blue: #2a78d6; --orange: #eb6834; --soft: rgba(235,104,52,.12); }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+    --bg: #111110; --panel: #191918; --ink: #f2f1ee; --ink2: #c4c3bf; --grid: #2c2b29;
+    --blue: #5b9be6; --orange: #f08a5d; --soft: rgba(240,138,93,.16); } }
+  :root[data-theme="dark"] { --bg: #111110; --panel: #191918; --ink: #f2f1ee; --ink2: #c4c3bf;
+    --grid: #2c2b29; --blue: #5b9be6; --orange: #f08a5d; --soft: rgba(240,138,93,.16); }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  main { max-width: 1080px; margin: 0 auto; padding: 24px 16px 40px; }
+  h1 { font-size: 1.45rem; margin: 0 0 4px; font-weight: 650; }
+  .lead { color: var(--ink2); margin: 0 0 16px; max-width: 800px; }
+  .theme { float: right; font: inherit; font-size: .8rem; padding: 4px 10px; border-radius: 999px;
+    border: 1px solid var(--grid); background: var(--panel); color: var(--ink); cursor: pointer; }
+  .controls { display: grid; grid-template-columns: auto 1fr 1fr; gap: 10px 18px; align-items: center; margin-bottom: 12px; }
+  @media (max-width: 700px) { .controls { grid-template-columns: 1fr; } }
+  .sl { display: flex; gap: 10px; align-items: center; font-variant-numeric: tabular-nums; }
+  .sl input { flex: 1; min-width: 0; accent-color: var(--blue); } .sl b { min-width: 3em; text-align: right; }
+  button { font: inherit; font-size: .9rem; padding: 6px 12px; border-radius: 999px; cursor: pointer;
+    border: 1px solid var(--grid); background: var(--panel); color: var(--ink); }
+  button:focus-visible, input:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+  .grid { display: grid; grid-template-columns: 1.3fr 1fr; gap: 14px; }
+  @media (max-width: 800px) { .grid { grid-template-columns: 1fr; } }
+  .card { background: var(--panel); border: 1px solid var(--grid); border-radius: 10px; padding: 12px; }
+  .card h2 { font-size: .95rem; margin: 0 0 6px; font-weight: 600; color: var(--ink2); }
+  .legend { font-size: .8rem; color: var(--ink2); display: flex; flex-wrap: wrap; gap: 4px 12px; margin-bottom: 4px; }
+  .sw { display: inline-block; width: 18px; border-top: 2.5px solid; vertical-align: middle; margin-right: 4px; }
+  canvas { width: 100%; display: block; } #plot { aspect-ratio: 16 / 11; }
+  #bloch { aspect-ratio: 1 / 1; touch-action: none; cursor: grab; }
+  .readout { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 12px; }
+  @media (max-width: 560px) { .readout { grid-template-columns: repeat(2, 1fr); } }
+  .stat { background: var(--panel); border: 1px solid var(--grid); border-radius: 8px; padding: 8px 10px; }
+  .stat .k { font-size: .78rem; color: var(--muted); } .stat .v { font-size: 1.15rem; font-variant-numeric: tabular-nums; }
+  .note { color: var(--ink2); font-size: .9rem; margin-top: 14px; max-width: 860px; }
+  code { font-size: .88em; } a { color: var(--blue); }
+</style>
+</head>
+<body>
+<main>
+  <button class="theme" id="theme" type="button" aria-label="Toggle dark mode">Theme</button>
+  <h1>Penrose's ħ/ΔE is a bound, not a lifetime</h1>
+  <p class="lead">A mass in a superposition of two places, <code>(|L⟩ + |R⟩)/√2</code>, with energy spread ΔE.
+    Unitary quantum mechanics (blue) circles the Bloch sphere on its surface and keeps coming back: it
+    never decays. A gravity-related collapse at rate <code>ΔE<sub>DP</sub>/ħ</code> (orange, a model) spirals
+    inward to a mixture of L and R. Drag the sphere.</p>
+
+  <div class="controls">
+    <button type="button" id="play" aria-label="Play">▶</button>
+    <label class="sl">ΔE·t / ħ<input id="t" type="range" min="0" max="12.6" step="0.01" value="1"><b id="vt">1.00</b></label>
+    <label class="sl">collapse rate ΔE<sub>DP</sub>/ΔE<input id="g" type="range" min="0" max="3" step="0.01" value="1"><b id="vg">1.00</b></label>
+  </div>
+
+  <div class="grid">
+    <div class="card"><h2>Survival probability ‖A(t)‖²</h2>
+      <div class="legend"><span><span class="sw" style="border-color:var(--blue)"></span>unitary (Lean)</span>
+        <span><span class="sw" style="border-color:var(--orange);border-top-style:dashed"></span>collapse model</span>
+        <span><span class="sw" style="border-color:var(--muted);border-top-style:dotted"></span>Lean floor cos²(ΔE·t)</span></div>
+      <canvas id="plot" aria-label="Survival probability against time"></canvas></div>
+    <div class="card"><h2>The Bloch sphere of the two branches</h2><canvas id="bloch" aria-label="Bloch sphere"></canvas></div>
+  </div>
+
+  <div class="readout" aria-live="polite">
+    <div class="stat"><div class="k">unitary ‖A‖²</div><div class="v" id="ru">–</div></div>
+    <div class="stat"><div class="k">collapse model ‖A‖²</div><div class="v" id="rc">–</div></div>
+    <div class="stat"><div class="k">Penrose time ħ/ΔE<sub>DP</sub> (in ħ/ΔE)</div><div class="v" id="rp">–</div></div>
+    <div class="stat"><div class="k">purity, collapse model</div><div class="v" id="rr">–</div></div>
+  </div>
+
+  <p class="note">Lean (<a href="https://github.com/naype888-cloud/nrs3-penrose">nrs3-penrose</a>): for every finite spectrum
+    <code>‖A(t)‖ ≥ 1/2</code> at Penrose's time <code>ħ/ΔE</code> (<code>half_le_norm_amplitude</code>); two branches have
+    <code>‖A(t)‖ = |cos ΔE t|</code>, are orthogonal exactly at <code>πħ/(2ΔE)</code> and return with period
+    <code>πħ/ΔE</code> (<code>twoBranch_periodic</code>). The orange curve is a dephasing model with rate
+    <code>ΔE<sub>DP</sub>/ħ</code>, survival <code>(1 + e<sup>−t ΔE<sub>DP</sub>/ħ</sup> cos 2ΔEt)/2</code>; it is not proved
+    here, and nothing on this page tests gravity. Donadi et al., Nat. Phys. 17, 74 (2021) ruled out the
+    parameter-free Diósi–Penrose model.</p>
+</main>
+<script>
+(() => {
+  const $ = (id) => document.getElementById(id);
+  const css = (n) => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+  let t = 1, G = 1, playing = false, yaw = 0.7, pitch = 0.45, last = 0, lastDrag = -1e9;
+  const TMAX = 12.6;
+  const uni = (x) => [Math.cos(2 * x), Math.sin(2 * x), 0];
+  const col = (x) => { const e = Math.exp(-G * x); return [e * Math.cos(2 * x), e * Math.sin(2 * x), 0]; };
+  const surv = (r) => (1 + r[0]) / 2;
+
+  function setup(c) {
+    const r = c.getBoundingClientRect(), dpr = window.devicePixelRatio || 1;
+    c.width = Math.round(r.width * dpr); c.height = Math.round(r.height * dpr);
+    const g = c.getContext("2d"); g.setTransform(dpr, 0, 0, dpr, 0, 0); return [g, r.width, r.height];
+  }
+  function drawPlot() {
+    const [g, w, h] = setup($("plot")), L = 40, R = 10, T = 10, B = 30, W = w - L - R, H = h - T - B;
+    const X = (x) => L + x / TMAX * W, Y = (y) => T + (1 - y / 1.05) * H;
+    g.strokeStyle = css("--grid"); g.fillStyle = css("--muted"); g.font = "12px system-ui, sans-serif"; g.lineWidth = 1;
+    for (let y = 0; y <= 1.001; y += .25) { g.beginPath(); g.moveTo(L, Y(y)); g.lineTo(L + W, Y(y)); g.stroke(); g.fillText(y.toFixed(2), 4, Y(y) + 4); }
+    for (let k = 0; k <= 4; k++) { const x = k * Math.PI; g.beginPath(); g.moveTo(X(x), T); g.lineTo(X(x), T + H); g.stroke();
+      g.fillText(k ? `${k}π` : "0", X(x) - 6, T + H + 18); }
+    // Lean floor up to π/2
+    g.fillStyle = css("--soft"); g.beginPath(); g.moveTo(X(0), Y(0));
+    for (let x = 0; x <= Math.PI / 2; x += .01) g.lineTo(X(x), Y(Math.cos(x) ** 2));
+    g.lineTo(X(Math.PI / 2), Y(0)); g.closePath(); g.fill();
+    g.strokeStyle = css("--muted"); g.setLineDash([2, 3]); g.beginPath();
+    for (let x = 0; x <= Math.PI / 2; x += .01) (x ? g.lineTo : g.moveTo).call(g, X(x), Y(Math.cos(x) ** 2)); g.stroke(); g.setLineDash([]);
+    const curve = (f, c, dash, lw) => { g.strokeStyle = c; g.lineWidth = lw; g.setLineDash(dash); g.beginPath();
+      for (let i = 0; i <= 900; i++) { const x = i / 900 * TMAX; (i ? g.lineTo : g.moveTo).call(g, X(x), Y(surv(f(x)))); }
+      g.stroke(); g.setLineDash([]); };
+    curve(uni, css("--blue"), [], 2.2); curve(col, css("--orange"), [7, 5], 2);
+    // Penrose time
+    if (G > 0.01) { const tp = 1 / G; if (tp <= TMAX) {
+      g.strokeStyle = css("--orange"); g.lineWidth = 1; g.beginPath(); g.moveTo(X(tp), T); g.lineTo(X(tp), T + H); g.stroke();
+      g.fillStyle = css("--orange"); g.fillText("ħ/ΔE_DP", Math.min(X(tp) + 4, L + W - 54), T + 12); } }
+    g.strokeStyle = css("--ink2"); g.beginPath(); g.moveTo(X(t), T); g.lineTo(X(t), T + H); g.stroke();
+    for (const [f, c] of [[uni, css("--blue")], [col, css("--orange")]]) {
+      g.fillStyle = c; g.beginPath(); g.arc(X(t), Y(surv(f(t))), 5, 0, 2 * Math.PI); g.fill(); }
+  }
+  function rot([x, y, z]) {
+    const cy = Math.cos(yaw), sy = Math.sin(yaw), cp = Math.cos(pitch), sp = Math.sin(pitch);
+    const x1 = cy * x + sy * y, y1 = -sy * x + cy * y;   // turn about the vertical z axis
+    return [x1, cp * z - sp * y1, sp * z + cp * y1];      // [screen x, screen y, depth]
+  }
+  function drawBloch() {
+    const [g, w, h] = setup($("bloch")), cx = w / 2, cy = h / 2, S = Math.min(w, h) * .38;
+    const P = (v) => { const [x, y, z] = rot(v), f = 4 / (4 + z); return [cx + x * S * f, cy - y * S * f, z]; };
+    const line = (pts, c, lw, dash, backAlpha) => {
+      for (let i = 1; i < pts.length; i++) {
+        const a = P(pts[i - 1]), b = P(pts[i]); g.globalAlpha = (a[2] + b[2]) / 2 > 0 ? backAlpha : 1;
+        g.strokeStyle = c; g.lineWidth = lw; g.setLineDash(dash); g.beginPath(); g.moveTo(a[0], a[1]); g.lineTo(b[0], b[1]); g.stroke();
+      } g.globalAlpha = 1; g.setLineDash([]); };
+    g.fillStyle = css("--soft"); g.globalAlpha = .35; g.beginPath(); g.arc(cx, cy, S * 1.0, 0, 2 * Math.PI); g.fill(); g.globalAlpha = 1;
+    for (let k = -2; k <= 2; k++) { const z = k / 3, r = Math.sqrt(1 - z * z);
+      line(Array.from({ length: 73 }, (_, i) => [r * Math.cos(i * Math.PI / 36), r * Math.sin(i * Math.PI / 36), z]), css("--grid"), 1, [], .5); }
+    for (let k = 0; k < 6; k++) { const a = k * Math.PI / 6;
+      line(Array.from({ length: 73 }, (_, i) => { const b = i * Math.PI / 36; return [Math.sin(b) * Math.cos(a), Math.sin(b) * Math.sin(a), Math.cos(b)]; }), css("--grid"), 1, [], .5); }
+    line([[0, 0, -1.25], [0, 0, 1.25]], css("--muted"), 1, [], .6);
+    g.font = "13px system-ui, sans-serif"; g.fillStyle = css("--ink2");
+    let q = P([0, 0, 1.33]); g.fillText("|L⟩", q[0] - 10, q[1]); q = P([0, 0, -1.33]); g.fillText("|R⟩", q[0] - 10, Math.min(h - 6, q[1] + 8));
+    q = P([1.2, 0, 0]); const lab = "start (|L⟩+|R⟩)/√2", tw = g.measureText(lab).width;
+    g.fillText(lab, Math.max(4, Math.min(w - tw - 4, q[0] + 4)), Math.max(14, Math.min(h - 6, q[1])));
+    const n = Math.max(2, Math.round(t * 30));
+    line(Array.from({ length: 181 }, (_, i) => uni(i * Math.PI / 180)), css("--blue"), 1.2, [3, 3], .35);
+    line(Array.from({ length: n + 1 }, (_, i) => col(i / n * t)), css("--orange"), 2, [], .4);
+    for (const [r, c] of [[uni(t), css("--blue")], [col(t), css("--orange")]]) {
+      const o = P([0, 0, 0]), e = P(r); g.strokeStyle = c; g.lineWidth = 3; g.beginPath(); g.moveTo(o[0], o[1]); g.lineTo(e[0], e[1]); g.stroke();
+      g.fillStyle = c; g.beginPath(); g.arc(e[0], e[1], 5.5, 0, 2 * Math.PI); g.fill(); }
+  }
+  function update() {
+    drawPlot(); drawBloch();
+    const ru = uni(t), rc = col(t);
+    $("ru").textContent = surv(ru).toFixed(4); $("rc").textContent = surv(rc).toFixed(4);
+    $("rp").textContent = G > 0.01 ? (1 / G).toFixed(3) : "∞";
+    $("rr").textContent = ((1 + rc[0] ** 2 + rc[1] ** 2) / 2).toFixed(4);
+    $("vt").textContent = t.toFixed(2); $("vg").textContent = G.toFixed(2);
+  }
+  function tick(ts) {
+    const dt = last ? Math.min(.05, (ts - last) / 1000) : 0; last = ts;
+    if (playing) { t += dt * .9; if (t > TMAX) t = 0; $("t").value = t; }
+    if (ts - lastDrag > 2500) yaw += dt * .2;
+    update(); requestAnimationFrame(tick);
+  }
+  $("t").addEventListener("input", (e) => { t = +e.target.value; });
+  $("g").addEventListener("input", (e) => { G = +e.target.value; });
+  $("play").addEventListener("click", (e) => { playing = !playing; e.target.textContent = playing ? "❚❚" : "▶";
+    e.target.setAttribute("aria-label", playing ? "Pause" : "Play"); });
+  const c = $("bloch"); let drag = null;
+  c.addEventListener("pointerdown", (e) => { drag = [e.clientX, e.clientY, yaw, pitch]; c.setPointerCapture(e.pointerId); lastDrag = performance.now(); });
+  c.addEventListener("pointermove", (e) => { if (!drag) return; yaw = drag[2] + (e.clientX - drag[0]) * .01;
+    pitch = Math.max(-1.4, Math.min(1.4, drag[3] + (e.clientY - drag[1]) * .01)); lastDrag = performance.now(); });
+  c.addEventListener("pointerup", () => { drag = null; });
+  $("theme").addEventListener("click", () => { const r = document.documentElement, dk = matchMedia("(prefers-color-scheme: dark)").matches;
+    r.dataset.theme = (r.dataset.theme || (dk ? "dark" : "light")) === "dark" ? "light" : "dark"; });
+  requestAnimationFrame(tick);
+})();
+</script>
+</body>
+</html>
