@@ -62,7 +62,7 @@
     <div class="card"><h2>Survival probability ‖A(t)‖²</h2>
       <div class="legend"><span><span class="sw" style="border-color:var(--blue)"></span>unitary (Lean)</span>
         <span><span class="sw" style="border-color:var(--orange);border-top-style:dashed"></span>collapse model</span>
-        <span><span class="sw" style="border-color:var(--muted);border-top-style:dotted"></span>Lean floor cos²(ΔE·t)</span></div>
+        <span><span class="sw" style="border-color:var(--muted);border-top-style:dotted"></span>Mandelstam–Tamm floor cos²(ΔE·t) (Lean: nrs3-mandelstam-tamm-cramer-rao)</span></div>
       <canvas id="plot" aria-label="Survival probability against time"></canvas></div>
     <div class="card"><h2>The Bloch sphere of the two branches</h2><canvas id="bloch" aria-label="Bloch sphere"></canvas></div>
   </div>
@@ -104,7 +104,7 @@
     for (let y = 0; y <= 1.001; y += .25) { g.beginPath(); g.moveTo(L, Y(y)); g.lineTo(L + W, Y(y)); g.stroke(); g.fillText(y.toFixed(2), 4, Y(y) + 4); }
     for (let k = 0; k <= 4; k++) { const x = k * Math.PI; g.beginPath(); g.moveTo(X(x), T); g.lineTo(X(x), T + H); g.stroke();
       g.fillText(k ? `${k}π` : "0", X(x) - 6, T + H + 18); }
-    // Lean floor up to π/2
+    // Mandelstam–Tamm floor up to π/2 (proved in nrs3-mandelstam-tamm-cramer-rao)
     g.fillStyle = css("--soft"); g.beginPath(); g.moveTo(X(0), Y(0));
     for (let x = 0; x <= Math.PI / 2; x += .01) g.lineTo(X(x), Y(Math.cos(x) ** 2));
     g.lineTo(X(Math.PI / 2), Y(0)); g.closePath(); g.fill();
