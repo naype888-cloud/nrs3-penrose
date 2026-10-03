@@ -12,6 +12,7 @@ evolution still keeps a survival amplitude of at least `cos 1 > 1/2`. Built on M
 
 | Statement | Lean |
 |---|---|
+| `‖A(t)‖ ≥ 1 − ΔE² t² / 2` for every `t`, as a corollary | `one_sub_le_norm_amplitude` |
 | at Penrose's time `ħ/ΔE`: `‖A‖ ≥ cos 1 ≈ 0.54` | `cos_one_le_norm_amplitude` |
 | hence `‖A‖ > 1/2`: the state has not decayed | `half_lt_norm_amplitude` |
 | no orthogonality before `πħ/(2ΔE)` | `speed_limit` |

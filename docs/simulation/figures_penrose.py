@@ -3,13 +3,14 @@
 Writes docs/figures/penrose1996_speed_limit.png.
 
 Left: survival amplitudes |A(t)| = |∑ p_k e^{−i E_k t}| against ΔE·t (ħ = 1): two equal branches
-(|cos ΔE t|, exact) and random finite spectra (numerical), above the Lean bound 1 − (ΔE t)²/2.
-At Penrose's time ΔE·t = 1 every curve is at least 1/2; none reaches 0 before √2.
+(|cos ΔE t|, exact) and random finite spectra (numerical), above the Mandelstam–Tamm bound
+cos ΔE t and its Taylor corollary 1 − (ΔE t)²/2. At Penrose's time ΔE·t = 1 every curve is at
+least cos 1 ≈ 0.54 > 1/2; none reaches 0 before π/2.
 Right: unitary dynamics revives (period π/ΔE, Lean) while a Diósi–Penrose collapse at rate ΔE/ħ
 would decay; the decay curve is the model's prediction, not a consequence of unitary dynamics.
 
-Exact (Lean, Penrose1996): the bound, ‖A‖ ≥ 1/2 at ΔE·t ≤ 1, two-branch orthogonality at π/2,
-period π. The Mandelstam–Tamm curve cos(ΔE t) is shown for reference; it is not formalized here.
+Exact (Lean, Penrose1996 on MandelstamTamm1945): cos ΔE t ≤ ‖A‖ up to π/2, 1 − (ΔE t)²/2 ≤ ‖A‖
+for every t, ‖A‖ ≥ cos 1 > 1/2 at ΔE·t ≤ 1, two-branch orthogonality at π/2, period π.
 
 Run:  python3 docs/simulation/figures_penrose.py
 """
@@ -41,15 +42,16 @@ def fig_penrose():
                 label="random spectra (numerical)" if i == 0 else None)
     ax.plot(s, np.abs(np.cos(s)), color=BLUE, lw=2.2, label="two equal branches: |cos ΔE t|")
     m = s <= np.pi / 2
-    ax.plot(s[m], np.cos(s[m]), color=INK, lw=1.1, ls=":",
-            label="Mandelstam–Tamm cos ΔE t (reference)")
+    ax.plot(s[m], np.cos(s[m]), color=INK, lw=1.6,
+            label="Mandelstam–Tamm cos ΔE t (Lean)")
     b = s <= np.sqrt(2)
     ax.plot(s[b], 1 - s[b] ** 2 / 2, color=ORANGE, lw=2, ls="--",
-            label="Lean bound 1 − (ΔE t)²/2")
-    ax.fill_between([0, 1], 0.5, 1.0, color=ORANGE, alpha=0.08)
+            label="corollary 1 − (ΔE t)²/2 (Lean)")
+    ax.fill_between([0, 1], np.cos(1), 1.0, color=ORANGE, alpha=0.08)
     ax.axvline(1, color=ORANGE, lw=1)
-    ax.plot([1], [0.5], "o", color=ORANGE, mec=SURFACE, mew=1.3, ms=7, zorder=5)
-    ax.text(0.03, 0.3, "shaded: until Penrose's\ntime ħ/ΔE, ‖A‖ ≥ 1/2", color=INK2,
+    ax.plot([1], [np.cos(1)], "o", color=ORANGE, mec=SURFACE, mew=1.3, ms=7, zorder=5)
+    ax.axhline(0.5, color=MUTED, lw=0.8, ls=":")
+    ax.text(0.03, 0.3, "shaded: until Penrose's\ntime ħ/ΔE, ‖A‖ ≥ cos 1 > 1/2", color=INK2,
             fontsize=9.5, va="bottom")
     ax.axvline(np.sqrt(2), color=MUTED, lw=0.9, ls=":")
     ax.axvline(np.pi / 2, color=BLUE, lw=0.9, ls=":")
@@ -60,7 +62,7 @@ def fig_penrose():
     ax.set_xlabel("ΔE · t / ħ")
     ax.set_ylabel("survival amplitude  ‖A(t)‖")
     ax.legend(loc="upper right", fontsize=8.6, framealpha=0.95, ncol=2)
-    ax.set_title("The speed limit: no orthogonality before √2 ħ/ΔE", loc="left", fontsize=11.5)
+    ax.set_title("The speed limit: no orthogonality before πħ/(2ΔE)", loc="left", fontsize=11.5)
 
     t = np.linspace(0, 4 * np.pi, 1200)
     bx.plot(t, np.cos(t) ** 2, color=BLUE, lw=2, label="unitary, two branches: revives (Lean)")

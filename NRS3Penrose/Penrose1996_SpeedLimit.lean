@@ -25,6 +25,7 @@ bound is Mandelstam–Tamm (1945): nothing here is defined anew. The survival am
 
 ## Main results
 
+- `Penrose1996.one_sub_le_norm_amplitude` : `1 − ΔE² t² / 2 ≤ ‖A(t)‖` for every `t`.
 - `Penrose1996.cos_one_le_norm_amplitude` : `cos 1 ≤ ‖A(t)‖` up to Penrose's time.
 - `Penrose1996.half_lt_norm_amplitude` : `1/2 < ‖A(t)‖` up to Penrose's time.
 - `Penrose1996.speed_limit` : `A(t) = 0` forces `π / 2 ≤ ΔE t`.
@@ -39,6 +40,34 @@ namespace Penrose1996
 open Real MandelstamTamm1945
 
 variable {n : ℕ} {p E : Fin n → ℝ}
+
+theorem amplitude_neg (t : ℝ) : amplitude p E (-t) = amplitude p (-E) t := by
+  simp only [amplitude, phase, Pi.neg_apply, mul_neg, neg_mul]
+
+theorem spread_neg : spread p (-E) = spread p E := by
+  have hm : mean p (-E) = -mean p E := by
+    simp [mean, Finset.sum_neg_distrib]
+  simp only [spread, hm, Pi.neg_apply]
+  congr 1
+  exact Finset.sum_congr rfl fun _ _ => by ring
+
+theorem one_sub_le_norm_amplitude_of_nonneg (hp : ∀ k, 0 ≤ p k) (h1 : ∑ k, p k = 1) {t : ℝ}
+    (ht0 : 0 ≤ t) : 1 - (spread p E * t) ^ 2 / 2 ≤ ‖amplitude p E t‖ := by
+  rcases le_or_gt (spread p E * t) (π / 2) with ht | ht
+  · exact (one_sub_sq_div_two_le_cos).trans (cos_le_norm_amplitude hp h1 ht0 ht)
+  · have : (3 / 2 : ℝ) ^ 2 < (spread p E * t) ^ 2 := by
+      have := pi_gt_three
+      exact pow_lt_pow_left₀ (by linarith) (by norm_num) two_ne_zero
+    linarith [norm_nonneg (amplitude p E t)]
+
+/-- **The Taylor bound, as a corollary of Mandelstam–Tamm**: `1 − ΔE² t² / 2 ≤ ‖A(t)‖` for
+every `t`. -/
+theorem one_sub_le_norm_amplitude (hp : ∀ k, 0 ≤ p k) (h1 : ∑ k, p k = 1) (t : ℝ) :
+    1 - (spread p E * t) ^ 2 / 2 ≤ ‖amplitude p E t‖ := by
+  rcases le_total 0 t with ht | ht
+  · exact one_sub_le_norm_amplitude_of_nonneg hp h1 ht
+  · have h := one_sub_le_norm_amplitude_of_nonneg (E := -E) hp h1 (neg_nonneg.mpr ht)
+    rwa [spread_neg, ← amplitude_neg, neg_neg, mul_neg, neg_sq] at h
 
 /-- **At Penrose's time the amplitude is at least `cos 1`.** -/
 theorem cos_one_le_norm_amplitude (hp : ∀ k, 0 ≤ p k) (h1 : ∑ k, p k = 1) {t : ℝ}
