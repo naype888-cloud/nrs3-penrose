@@ -1,7 +1,8 @@
 # NRS³ · Penrose
 
 **Penrose's collapse time `ħ / ΔE` is a bound, not a lifetime** — at that time every unitary
-evolution still keeps a survival amplitude of at least `1/2`. Lean 4.
+evolution still keeps a survival amplitude of at least `cos 1 > 1/2`. Built on Mandelstam–Tamm
+(1945), with nothing defined anew. Lean 4.
 
 **[▶ Try it: unitary vs collapse on the Bloch sphere](https://naype888-cloud.github.io/nrs3-penrose/)**
 
@@ -11,14 +12,16 @@ evolution still keeps a survival amplitude of at least `1/2`. Lean 4.
 
 | Statement | Lean |
 |---|---|
-| `‖A(t)‖ ≥ 1 − ΔE² t² / 2` for every finite spectrum | `one_sub_le_norm_amplitude` |
-| no orthogonality before `√2 ħ/ΔE` | `speed_limit` |
-| at Penrose's time `ħ/ΔE`: `‖A‖ ≥ 1/2` | `half_le_norm_amplitude` |
-| two equal branches: `‖A(t)‖ = |cos ΔE t|`, orthogonal exactly at `πħ/(2ΔE)` | `twoBranch_norm_amplitude`, `twoBranch_orthogonal` |
+| at Penrose's time `ħ/ΔE`: `‖A‖ ≥ cos 1 ≈ 0.54` | `cos_one_le_norm_amplitude` |
+| hence `‖A‖ > 1/2`: the state has not decayed | `half_lt_norm_amplitude` |
+| no orthogonality before `πħ/(2ΔE)` | `speed_limit` |
+| two equal branches: orthogonal exactly at `πħ/(2ΔE)` | `twoBranch_orthogonal` |
 | and back to `1` with period `πħ/ΔE`: no decay | `twoBranch_periodic` |
 
-The sharp constant `π/2` for every state is in `nrs3-mandelstam-tamm` (at `ħ/ΔE` it gives
-`‖A‖ ≥ cos 1 ≈ 0.54`).
+The amplitude, the spread `ΔE` and the bound `cos(ΔE t) ≤ ‖A(t)‖` are those of
+[`nrs3-mandelstam-tamm-cramer-rao`](https://github.com/naype888-cloud/nrs3-mandelstam-tamm-cramer-rao),
+which this package requires: Penrose's reading is a corollary of Mandelstam–Tamm, not a second
+dynamics.
 
 ## In NRS³
 
@@ -36,7 +39,7 @@ unitary quantum mechanics says at `ħ / ΔE`.
 
 ## Build
 
-Lean 4 `v4.34.0`, Mathlib `v4.34.0`, nothing else.
+Lean 4 `v4.34.0`, Mathlib `v4.34.0` and `nrs3-mandelstam-tamm-cramer-rao`, nothing else.
 
 ```bash
 lake exe cache get

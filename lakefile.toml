@@ -5,9 +5,9 @@ defaultTargets = ["NRS3Penrose"]
 autoImplicit = false
 
 [[require]]
-name = "mathlib"
-git = "https://github.com/leanprover-community/mathlib4.git"
-rev = "v4.34.0"
+name = "NRS3MandelstamTammCramerRao"
+git = "https://github.com/naype888-cloud/nrs3-mandelstam-tamm-cramer-rao.git"
+rev = "19804f01c929baf62c0ecb076389576d77e828b2"
 
 [[lean_lib]]
 name = "NRS3Penrose"
