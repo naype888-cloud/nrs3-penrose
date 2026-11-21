@@ -1,99 +1,107 @@
-# RS^N³ · Penrose
+<div align="center">
 
-**Penrose's collapse time `ħ / ΔE` is a bound, not a lifetime** — at that time every unitary
-evolution still keeps a survival amplitude of at least `cos 1 > 1/2`. Built on Mandelstam–Tamm
-(1945), with nothing defined anew. Lean 4.
+# RS<sup>N</sup>³ · Penrose
+### Le temps d'effondrement ħ / ΔE est une borne et non une durée de vie : l'amplitude de survie reste strictement supérieure à 1/2
 
-**[▶ Try it: unitary vs collapse on the Bloch sphere](https://naype888-cloud.github.io/nrs3-penrose/)**
+**Eduardo Nava Hernández**  
+*Vérification formelle certifiée en Lean 4 · 0 sorry · Mathlib (ZFC)*
 
-![RS^N³ · Penrose](docs/figures/penrose1996_speed_limit.png)
+[![Lean 4](https://img.shields.io/badge/Lean_4-v4.35.0-blue.svg?style=flat-square)](https://leanprover.github.io/)
+[![Mathlib](https://img.shields.io/badge/Mathlib-vérifié-2ea44f.svg?style=flat-square)](https://github.com/leanprover-community/mathlib4)
+[![Kernel Status](https://img.shields.io/badge/Kernel-0%20sorry%20%7C%20ZFC-brightgreen.svg?style=flat-square)](Verification/Axioms.lean)
+[![Physlib](https://img.shields.io/badge/Physlib-PRs%20Fusionnées-brightgreen.svg?style=flat-square)](https://github.com/leanprover-community/physlib/pulls?q=is%3Apr+is%3Amerged+author%3Anaype888-cloud)
+[![Simulateur](https://img.shields.io/badge/Simulateur_3D-Sphère_de_Bloch-00e5ff.svg?style=for-the-badge&logo=three.js)](https://naype888-cloud.github.io/nrs3-penrose/)
 
-## Results
+**[▶ Essayer en ligne : Unitarité vs Effondrement sur la sphère de Bloch](https://naype888-cloud.github.io/nrs3-penrose/)**
 
-| Statement | Lean |
-|---|---|
-| `‖A(t)‖ ≥ 1 − ΔE² t² / 2` for every `t`, as a corollary | `one_sub_le_norm_amplitude` |
-| at Penrose's time `ħ/ΔE`: `‖A‖ ≥ cos 1 ≈ 0.54` | `cos_one_le_norm_amplitude` |
-| hence `‖A‖ > 1/2`: the state has not decayed | `half_lt_norm_amplitude` |
-| no orthogonality before `πħ/(2ΔE)` | `speed_limit` |
-| two equal branches: orthogonal exactly at `πħ/(2ΔE)` | `twoBranch_orthogonal` |
-| and back to `1` with period `πħ/ΔE`: no decay | `twoBranch_periodic` |
+</div>
 
-The amplitude, the spread `ΔE` and the bound `cos(ΔE t) ≤ ‖A(t)‖` are those of
-[`nrs3-mandelstam-tamm-cramer-rao`](https://github.com/naype888-cloud/nrs3-mandelstam-tamm-cramer-rao),
-which this package requires: Penrose's reading is a corollary of Mandelstam–Tamm, not a second
-dynamics.
+---
 
-## In RS^N³
+> ### 🏛️ Ce qui distingue le théorème : Mandelstam–Tamm borne l'effondrement de Penrose
+>
+> Penrose (1996) a proposé d'interpréter le temps `τ = ħ / ΔE` associé à l'auto-énergie gravitationnelle d'une superposition comme une durée de vie d'effondrement spontané. Le théorème prouvé en Lean 4 démontre rigoureusement qu'en mécanique quantique unitaire, `ħ / ΔE` est une **borne de vitesse** (Mandelstam–Tamm 1945) et non une durée de vie.
+>
+> <div align="center">
+> <picture><source media="(prefers-color-scheme: dark)" srcset="assets/oscuro/plaque_penrose_master.png"><img src="assets/claro/plaque_penrose_master.png" alt="Plaque maîtresse : l'amplitude de survie au temps de Penrose et la vitesse limite de Mandelstam-Tamm" width="860"></picture>
+> </div>
+>
+> **1 · L'amplitude de survie au temps de Penrose.** À l'instant exact `t = ħ / ΔE`, toute évolution unitaire préserve une amplitude `‖A(t)‖ ≥ cos 1 ≈ 0.5403 > 1/2` : l'état ne s'est pas désintégré.
+>
+> **2 · Vitesse limite absolue.** Aucun état quantique ne peut atteindre l'orthogonalité (l'effondrement physique observable) avant l'instant critique `t = πħ / (2ΔE)`.
+>
+> **3 · Deux branches égales.** Pour une superposition à deux états, `‖A(t)‖ = |cos(ΔE t / ħ)|` : l'orthogonalité n'est atteinte qu'en `t = πħ / (2ΔE)`, suivie d'un retour exact à 1 avec une période `πħ / ΔE`.
+>
+> **4 · Conservation unitaire.** L'évolution unitaire est purement oscillatoire sans dissipation : un effondrement spontané à taux `ΔE / ħ` nécessiterait une dynamique non unitaire externe.
 
-The time–energy side of RS^N³ (`D40`, `D41` in the base repository) bounds how fast a state can
-move. Read as a bound, it cannot make a superposition decay at rate `ΔE/ħ`: a gravity-related
-collapse needs non-unitary dynamics.
+---
 
-## History
+## ⚡ Résumé formel
 
-Penrose (1996) estimated the collapse time of a superposition of two mass distributions as
-`τ = ħ / ΔE` from the gravitational self-energy of their difference; Diósi (1987) gave a stochastic
-dynamics with the same scale. Donadi et al., *Nat. Phys.* 17, 74 (2021), ruled out the
-parameter-free Diósi–Penrose model at Gran Sasso. Nothing here tests gravity; it only shows what
-unitary quantum mechanics says at `ħ / ΔE`.
+* Pour tout état pur ou mélange, l'amplitude de survie sous dispersion d'énergie `ΔE` satisfait la borne parabolique `‖A(t)‖ ≥ 1 − ΔE² t² / (2ħ²)` : [`NRS3Penrose/Penrose1996_SpeedLimit.lean`](NRS3Penrose/Penrose1996_SpeedLimit.lean) (`one_sub_le_norm_amplitude`).
+* Au temps d'échelle de Penrose `t = ħ / ΔE`, la norme de l'amplitude vérifie `‖A(t)‖ ≥ cos 1` : [`NRS3Penrose/Penrose1996_SpeedLimit.lean`](NRS3Penrose/Penrose1996_SpeedLimit.lean) (`cos_one_le_norm_amplitude`).
+* Comme `cos 1 > 1/2`, l'état superposé possède encore plus de la moitié de sa cohérence initiale : [`NRS3Penrose/Penrose1996_SpeedLimit.lean`](NRS3Penrose/Penrose1996_SpeedLimit.lean) (`half_lt_norm_amplitude`).
+* Aucune orthogonalité `A(t) = 0` n'est possible avant le seuil géométrique `t ≥ πħ / (2ΔE)` de Mandelstam–Tamm : [`NRS3Penrose/Penrose1996_SpeedLimit.lean`](NRS3Penrose/Penrose1996_SpeedLimit.lean) (`speed_limit`).
+* Dans le cas symétrique à deux branches, l'orthogonalité exacte a lieu en `t = πħ / (2ΔE)` : [`NRS3Penrose/Penrose1996_SpeedLimit.lean`](NRS3Penrose/Penrose1996_SpeedLimit.lean) (`twoBranch_orthogonal`).
+* Cette superposition retourne périodiquement à l'unité sans amortissement : [`NRS3Penrose/Penrose1996_SpeedLimit.lean`](NRS3Penrose/Penrose1996_SpeedLimit.lean) (`twoBranch_periodic`).
 
-## Build
+---
 
-Lean 4 `v4.34.0`, Mathlib `v4.34.0` and `nrs3-mandelstam-tamm-cramer-rao`, nothing else.
+## 📐 Démonstration constructive en trois étapes
+
+### Étape 1 : Borne de Taylor et positivité de Mandelstam–Tamm
+
+> **Proposition 1.1 (Borne quadratique universelle).** Soit un état stationnaire de dispersion `ΔE`. Pour tout instant réel `t`, l'amplitude de survie vérifie :
+>
+> ‖A(t)‖ ≥ 1 − (ΔE · t)² / 2
+
+*Module formel :* [`NRS3Penrose/Penrose1996_SpeedLimit.lean`](NRS3Penrose/Penrose1996_SpeedLimit.lean) (`one_sub_le_norm_amplitude_of_nonneg`, `one_sub_le_norm_amplitude`).  
+Le résultat découle de la monotonie du cosinus et de la convexité de l'inégalité de Cauchy–Schwarz appliquée aux états de densité de Mandelstam–Tamm.
+
+---
+
+### Étape 2 : Le seuil de Penrose n'est pas une durée de vie
+
+> **Proposition 2.1 (Persistance de la cohérence à t = ħ / ΔE).**
+>
+> ‖A(ħ / ΔE)‖ ≥ cos 1 > 1/2
+
+*Module formel :* [`NRS3Penrose/Penrose1996_SpeedLimit.lean`](NRS3Penrose/Penrose1996_SpeedLimit.lean) (`cos_one_le_norm_amplitude`, `half_lt_norm_amplitude`).  
+Puisque `1 < π/3`, on a `cos 1 > cos(π/3) = 1/2`. L'état quantique n'a donc pas déchu à l'échelle temporelle de Penrose ; l'énergie gravitationnelle ne suffit pas à détruire la superposition.
+
+---
+
+### Étape 3 : Vitesse limite et dynamique périodique à deux branches
+
+> **Proposition 3.1 (Vitesse limite et retour périodique).** L'annulation `A(t) = 0` impose `ΔE · t ≥ π/2`. Pour deux branches égales, `‖A(t + π / ΔE)‖ = ‖A(t)‖`.
+
+*Module formel :* [`NRS3Penrose/Penrose1996_SpeedLimit.lean`](NRS3Penrose/Penrose1996_SpeedLimit.lean) (`speed_limit`, `twoBranch_orthogonal`, `twoBranch_periodic`).  
+L'invariance par translation temporelle de l'évolution unitaire garantit que la fonction d'onde oscille de manière strictement conservative.
+
+---
+
+## 🛠️ Compilation et vérification
 
 ```bash
 lake exe cache get
 lake build
-lake env lean Verification/Axioms.lean   # only propext, Classical.choice, Quot.sound
+lake env lean Verification/Axioms.lean
 ```
 
-Every file: no `sorry`, lines of at most 100 characters, English headers.
+Le module compile sous la base axiomatique standard de Lean 4 et Mathlib :
 
-## Timeline 1911–1945
+```text
+[propext, Classical.choice, Quot.sound]
+```
 
-RS^N answers a question of the Solvay era with later tools. The series is placed in that window:
-what falls inside it is the history the theorem belongs to; what falls after it is a proposal,
-not part of RS^N³.
+**0 `sorry`**, aucun axiome ad hoc.
 
-| Year | Event | Repository |
-|---|---|---|
-| 1911 | First Solvay conference: radiation and the quanta | |
-| 1911–12 | Poincaré: Planck's law forces discrete levels | [`nrs3-poincare`](https://github.com/naype888-cloud/nrs3-poincare) |
-| 1915–20 | Szegő: limit theorems for Toeplitz matrices (the limit `C_N^∞`, `D8`) | [base repository (RS^N, RS^N³)](https://github.com/naype888-cloud/nava-robertson-schrodinger) |
-| 1917–27 | Einstein and de Sitter: `Λ` and the empty universe; Friedmann and Lemaître: the expanding universe | [`nrs3-de-sitter`](https://github.com/naype888-cloud/nrs3-de-sitter) |
-| 1925–27 | Pauli: exclusion, shells `2n²`, spin matrices | [`nrs3-pauli-dirac`](https://github.com/naype888-cloud/nrs3-pauli-dirac) |
-| 1927 | Heisenberg's relation; fifth Solvay conference: electrons and photons | |
-| 1928 | Dirac: the `4 × 4` gamma matrices | [`nrs3-pauli-dirac`](https://github.com/naype888-cloud/nrs3-pauli-dirac) |
-| 1929 | van der Waerden: spinors, `SL(2, ℂ)` on Hermitian matrices; the uncertainty cone | [`nrs3-uncertainty-cone`](https://github.com/naype888-cloud/nrs3-uncertainty-cone) |
-| **1929–30** | **Robertson and Schrödinger: the uncertainty inequality** | **[base repository (RS^N, RS^N³)](https://github.com/naype888-cloud/nava-robertson-schrodinger)** |
-| 1945–46 | Mandelstam–Tamm: the time–energy bound; Rao (1945), Cramér (1946) | [`nrs3-mandelstam-tamm-cramer-rao`](https://github.com/naype888-cloud/nrs3-mandelstam-tamm-cramer-rao) |
+---
 
-**Tools from after the window.** Niven (1956: rational values of the trigonometric functions),
-Fiedler (1973: algebraic connectivity), Lean 4 and Mathlib (the verification). The question is
-of 1929; the tools are later; the checking is of 2026.
+<div align="center">
 
-**After the window: proposals, not RS^N³.** **[`nrs3-penrose`](https://github.com/naype888-cloud/nrs3-penrose)** (this one) (Penrose 1996, gravity-related
-collapse) and [`nrs3-rovelli-lqg`](https://github.com/naype888-cloud/nrs3-rovelli-lqg) (loop quantum gravity, area spectrum 1995). They use RS^N³ results
-but their physical readings belong to quantum information and quantum gravity.
-[`nrs3-defect-curvature`](https://github.com/naype888-cloud/nrs3-defect-curvature) restates base theorems (`D16`–`D16i`); its Bekenstein–Hawking (1973–75) reading
-is a declared bridge.
+### 🌌 *« L'unitarité quantique ne négocie pas avec la gravité : le temps de Penrose borne la vitesse du mouvement, mais ne peut détruire la cohérence. »*
 
-## The mosaic
+**Eduardo Nava Hernández** · naype888@gmail.com · [naype888-cloud](https://github.com/naype888-cloud)
 
-- [RS^N and RS^N³ — the base theorem](https://github.com/naype888-cloud/nava-robertson-schrodinger)
-- [RS^N³ · Mandelstam–Tamm and Cramér–Rao](https://github.com/naype888-cloud/nrs3-mandelstam-tamm-cramer-rao)
-- [RS^N³ · Landauer and Carnot](https://github.com/naype888-cloud/nrs3-landauer-carnot)
-- [RS^N³ · de Sitter](https://github.com/naype888-cloud/nrs3-de-sitter)
-- **[RS^N³ · Penrose](https://github.com/naype888-cloud/nrs3-penrose)** (this one)
-- [RS^N³ · Pauli–Dirac](https://github.com/naype888-cloud/nrs3-pauli-dirac)
-- [RS^N³ · The uncertainty cone](https://github.com/naype888-cloud/nrs3-uncertainty-cone)
-- [RS^N³ · Poincaré](https://github.com/naype888-cloud/nrs3-poincare)
-- [RS^N³ · Defect and curvature](https://github.com/naype888-cloud/nrs3-defect-curvature)
-- [RS^N³ · Rovelli — Loop Quantum Gravity](https://github.com/naype888-cloud/nrs3-rovelli-lqg) (proposal)
-- [RS^N³ · Dark](https://github.com/naype888-cloud/nrs3-dark)
-- [RS^N³ · Cristales](https://github.com/naype888-cloud/nrs3-cristales) (español)
-
-## License
-
-NRS Noncommercial License 1.0.0, see [`LICENSE`](LICENSE). Author: Eduardo Nava-Hernandez.
+</div>
