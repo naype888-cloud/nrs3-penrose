@@ -38,6 +38,8 @@
 
 ## ⚡ Résumé formel
 
+*Convention : le module Lean pose ħ = 1 ; les formules ci-dessous restituent ħ.*
+
 * Pour tout état pur ou mélange, l'amplitude de survie sous dispersion d'énergie `ΔE` satisfait la borne parabolique `‖A(t)‖ ≥ 1 − ΔE² t² / (2ħ²)` : [`NRS3Penrose/Penrose1996_SpeedLimit.lean`](NRS3Penrose/Penrose1996_SpeedLimit.lean) (`one_sub_le_norm_amplitude`).
 * Au temps d'échelle de Penrose `t = ħ / ΔE`, la norme de l'amplitude vérifie `‖A(t)‖ ≥ cos 1` : [`NRS3Penrose/Penrose1996_SpeedLimit.lean`](NRS3Penrose/Penrose1996_SpeedLimit.lean) (`cos_one_le_norm_amplitude`).
 * Comme `cos 1 > 1/2`, l'état superposé possède encore plus de la moitié de sa cohérence initiale : [`NRS3Penrose/Penrose1996_SpeedLimit.lean`](NRS3Penrose/Penrose1996_SpeedLimit.lean) (`half_lt_norm_amplitude`).
@@ -101,6 +103,57 @@ L'invariance par translation temporelle de l'évolution unitaire garantit que la
 
 ---
 
+## 🔬 Contributions Physlib fusionnées liées
+
+| PR Physlib | Titre | Lien avec ce dépôt | Statut |
+|:---:|:---|:---|:---:|
+| [**#1711**](https://github.com/leanprover-community/physlib/pull/1711) | Mandelstam–Tamm and Cramér–Rao in the open tight binding chain | La borne de Mandelstam–Tamm `|⟨J⟩| ≤ 2 ΔH ΔX` sur la chaîne ouverte : la même inégalité temps–énergie que les étapes 1 et 3 | **MERGED** |
+| [**#1739**](https://github.com/leanprover-community/physlib/pull/1739) | Mandelstam–Tamm and Cramér–Rao in the maximal current state | Dans l'état de courant maximal, le rapport de Mandelstam–Tamm vaut `1/C_N²` | **MERGED** |
+
+---
+
+## 📚 Catalogue des modules Lean
+
+| Module | Théorème principal | Signification | `sorry` |
+|:---|:---|:---|:---:|
+| [`NRS3Penrose/Penrose1996_SpeedLimit.lean`](NRS3Penrose/Penrose1996_SpeedLimit.lean) | `one_sub_le_norm_amplitude` | Borne de Taylor `‖A(t)‖ ≥ 1 − ΔE² t² / 2` | 0 |
+| [`NRS3Penrose/Penrose1996_SpeedLimit.lean`](NRS3Penrose/Penrose1996_SpeedLimit.lean) | `half_lt_norm_amplitude` | `‖A(t)‖ > 1/2` jusqu'au temps de Penrose | 0 |
+| [`NRS3Penrose/Penrose1996_SpeedLimit.lean`](NRS3Penrose/Penrose1996_SpeedLimit.lean) | `speed_limit` | `A(t) = 0` impose `π / 2 ≤ ΔE t` (Mandelstam–Tamm) | 0 |
+| [`NRS3Penrose/Penrose1996_SpeedLimit.lean`](NRS3Penrose/Penrose1996_SpeedLimit.lean) | `twoBranch_periodic` | Deux branches : retour de période `π / ΔE`, sans amortissement | 0 |
+
+### Portée
+
+* Le module pose ħ = 1 ; le temps de Penrose est l'échelle `1 / ΔE` (soit ħ / ΔE).
+* Le modèle gravitationnel de Diósi–Penrose qui fixe ΔE n'est pas formalisé : seul le comportement de l'amplitude à cette échelle l'est.
+
+---
+
+## 🏛️ La mosaïque
+
+| Dépôt | Objet |
+|:---|:---|
+| [**nava-robertson-schrodinger**](https://github.com/naype888-cloud/nava-robertson-schrodinger) | Le canon : l'incertitude élémentaire dimensionnelle sur le cube ouvert |
+| [`lean4-commits`](https://github.com/naype888-cloud/lean4-commits) | Les PRs Lean 4 fusionnées et ouvertes dans Physlib |
+| [`Proper-Time-General-Relativity`](https://github.com/naype888-cloud/Proper-Time-General-Relativity) | Le temps compte les pas à quatre sites |
+| [`nrs3-golab`](https://github.com/naype888-cloud/nrs3-golab) | Le π d'un plan normé et la stabilité des orbites |
+| [`nrs3-mandelstam-tamm-cramer-rao`](https://github.com/naype888-cloud/nrs3-mandelstam-tamm-cramer-rao) | Vitesse d'évolution et borne d'estimation de phase |
+| [`nrs3-de-sitter`](https://github.com/naype888-cloud/nrs3-de-sitter) | L'entropie d'horizon fixe la constante cosmologique ; les deux équations de Friedmann |
+| [`nrs3-bekenstein`](https://github.com/naype888-cloud/nrs3-bekenstein) | Bits sur la frontière, fibre de Minkowski et borne universelle |
+| [`nrs3-landauer-carnot`](https://github.com/naype888-cloud/nrs3-landauer-carnot) | Effacer un bit coûte k_B T ln 2 ; aucun moteur ne dépasse 1 − T_c/T_h |
+| [`nrs3-rovelli-lqg`](https://github.com/naype888-cloud/nrs3-rovelli-lqg) | Le spectre d'aire LQG, les piqûres d'horizon et le paramètre d'Immirzi |
+| [`nrs3-uncertainty-cone`](https://github.com/naype888-cloud/nrs3-uncertainty-cone) | La matrice de Gram d'une paire conjuguée est un quadrivecteur de Minkowski |
+
+---
+
+## ⏱️ Chronologie
+
+| Année | Résultat | Étape |
+|:---:|:---|:---:|
+| **1945** | Mandelstam–Tamm : l'inégalité temps–énergie de l'orthogonalité | 1, 3 |
+| **1996** | Penrose : le temps d'effondrement gravitationnel ħ / ΔE | 2 |
+
+---
+
 ## 🛠️ Compilation et vérification
 
 ```bash
@@ -116,6 +169,12 @@ Le module compile sous la base axiomatique standard de Lean 4 et Mathlib :
 ```
 
 **0 `sorry`**, aucun axiome ad hoc.
+
+---
+
+## 📜 Licence
+
+[NRS Noncommercial License 1.0.0](LICENSE).
 
 ---
 
