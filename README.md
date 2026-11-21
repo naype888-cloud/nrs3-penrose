@@ -59,6 +59,8 @@
 >
 > ‖A(t)‖ ≥ 1 − (ΔE · t)² / 2
 
+<div align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/oscuro/plaque_penrose_etape1.png"><img src="assets/claro/plaque_penrose_etape1.png" alt="Étape 1 : Borne quadratique universelle de Taylor" width="860"></picture></div>
+
 *Module formel :* [`NRS3Penrose/Penrose1996_SpeedLimit.lean`](NRS3Penrose/Penrose1996_SpeedLimit.lean) (`one_sub_le_norm_amplitude_of_nonneg`, `one_sub_le_norm_amplitude`).  
 Le résultat découle de la monotonie du cosinus et de la convexité de l'inégalité de Cauchy–Schwarz appliquée aux états de densité de Mandelstam–Tamm.
 
@@ -70,6 +72,8 @@ Le résultat découle de la monotonie du cosinus et de la convexité de l'inéga
 >
 > ‖A(ħ / ΔE)‖ ≥ cos 1 > 1/2
 
+<div align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/oscuro/plaque_penrose_etape2.png"><img src="assets/claro/plaque_penrose_etape2.png" alt="Étape 2 : Persistance de la cohérence au seuil de Penrose" width="860"></picture></div>
+
 *Module formel :* [`NRS3Penrose/Penrose1996_SpeedLimit.lean`](NRS3Penrose/Penrose1996_SpeedLimit.lean) (`cos_one_le_norm_amplitude`, `half_lt_norm_amplitude`).  
 Puisque 1 < π/3, on a cos 1 > cos(π/3) = 1/2. L'état quantique n'a donc pas déchu à l'échelle temporelle de Penrose ; l'énergie gravitationnelle ne suffit pas à détruire la superposition.
 
@@ -79,6 +83,8 @@ Puisque 1 < π/3, on a cos 1 > cos(π/3) = 1/2. L'état quantique n'a donc pas d
 
 > **Proposition 3.1 (Borne de Mandelstam–Tamm sur la vitesse d'évolution).** L'annulation A(t) = 0 impose ΔE · t ≥ π/2. Le temps pour atteindre un état orthogonal est strictement supérieur au temps gravitationnel de Penrose : t_ortho ≥ π ħ / (2 ΔE) > ħ / ΔE.
 
+<div align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/oscuro/plaque_penrose_etape3.png"><img src="assets/claro/plaque_penrose_etape3.png" alt="Étape 3 : Vitesse limite et temps minimal d'orthogonalité" width="860"></picture></div>
+
 *Module formel :* [`NRS3Penrose/Penrose1996_SpeedLimit.lean`](NRS3Penrose/Penrose1996_SpeedLimit.lean) (`speed_limit`).  
 L'évolution unitaire borne la vitesse maximale de parcours dans l'espace de Hilbert, interdisant toute décohérence instantanée.
 
@@ -87,6 +93,8 @@ L'évolution unitaire borne la vitesse maximale de parcours dans l'espace de Hil
 ### Étape 4 : Dynamique à deux branches et conservation unitaire
 
 > **Proposition 4.1 (Oscillation périodique sans effondrement).** Pour une superposition de deux branches symétriques, l'amplitude de survie satisfait ‖A(t)‖ = |cos(ΔE · t / ħ)|. L'état oscille périodiquement avec ‖A(t + π ħ / ΔE)‖ = ‖A(t)‖ sans amortissement ni perte d'information.
+
+<div align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/oscuro/plaque_penrose_etape4.png"><img src="assets/claro/plaque_penrose_etape4.png" alt="Étape 4 : Dynamique à deux branches et conservation unitaire" width="860"></picture></div>
 
 *Module formel :* [`NRS3Penrose/Penrose1996_SpeedLimit.lean`](NRS3Penrose/Penrose1996_SpeedLimit.lean) (`twoBranch_orthogonal`, `twoBranch_periodic`).  
 L'invariance par translation temporelle de l'évolution unitaire garantit que la fonction d'onde oscille de manière strictement conservative.
