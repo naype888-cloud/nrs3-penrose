@@ -47,11 +47,15 @@
 
 ---
 
-## 📐 Démonstration constructive en trois étapes
+## 📐 Démonstration constructive en quatre étapes
+
+<div align="center">
+<picture><source media="(prefers-color-scheme: dark)" srcset="assets/oscuro/plaque_penrose_etapes.png"><img src="assets/claro/plaque_penrose_etapes.png" alt="L'échelle déductive en quatre étapes : de la borne de Taylor à l'oscillation unitaire" width="860"></picture>
+</div>
 
 ### Étape 1 : Borne de Taylor et positivité de Mandelstam–Tamm
 
-> **Proposition 1.1 (Borne quadratique universelle).** Soit un état stationnaire de dispersion `ΔE`. Pour tout instant réel `t`, l'amplitude de survie vérifie :
+> **Proposition 1.1 (Borne quadratique universelle).** Soit un état stationnaire de dispersion ΔE. Pour tout instant réel t, l'amplitude de survie vérifie :
 >
 > ‖A(t)‖ ≥ 1 − (ΔE · t)² / 2
 
@@ -67,15 +71,24 @@ Le résultat découle de la monotonie du cosinus et de la convexité de l'inéga
 > ‖A(ħ / ΔE)‖ ≥ cos 1 > 1/2
 
 *Module formel :* [`NRS3Penrose/Penrose1996_SpeedLimit.lean`](NRS3Penrose/Penrose1996_SpeedLimit.lean) (`cos_one_le_norm_amplitude`, `half_lt_norm_amplitude`).  
-Puisque `1 < π/3`, on a `cos 1 > cos(π/3) = 1/2`. L'état quantique n'a donc pas déchu à l'échelle temporelle de Penrose ; l'énergie gravitationnelle ne suffit pas à détruire la superposition.
+Puisque 1 < π/3, on a cos 1 > cos(π/3) = 1/2. L'état quantique n'a donc pas déchu à l'échelle temporelle de Penrose ; l'énergie gravitationnelle ne suffit pas à détruire la superposition.
 
 ---
 
-### Étape 3 : Vitesse limite et dynamique périodique à deux branches
+### Étape 3 : Vitesse limite et temps minimal d'orthogonalité
 
-> **Proposition 3.1 (Vitesse limite et retour périodique).** L'annulation `A(t) = 0` impose `ΔE · t ≥ π/2`. Pour deux branches égales, `‖A(t + π / ΔE)‖ = ‖A(t)‖`.
+> **Proposition 3.1 (Borne de Mandelstam–Tamm sur la vitesse d'évolution).** L'annulation A(t) = 0 impose ΔE · t ≥ π/2. Le temps pour atteindre un état orthogonal est strictement supérieur au temps gravitationnel de Penrose : t_ortho ≥ π ħ / (2 ΔE) > ħ / ΔE.
 
-*Module formel :* [`NRS3Penrose/Penrose1996_SpeedLimit.lean`](NRS3Penrose/Penrose1996_SpeedLimit.lean) (`speed_limit`, `twoBranch_orthogonal`, `twoBranch_periodic`).  
+*Module formel :* [`NRS3Penrose/Penrose1996_SpeedLimit.lean`](NRS3Penrose/Penrose1996_SpeedLimit.lean) (`speed_limit`).  
+L'évolution unitaire borne la vitesse maximale de parcours dans l'espace de Hilbert, interdisant toute décohérence instantanée.
+
+---
+
+### Étape 4 : Dynamique à deux branches et conservation unitaire
+
+> **Proposition 4.1 (Oscillation périodique sans effondrement).** Pour une superposition de deux branches symétriques, l'amplitude de survie satisfait ‖A(t)‖ = |cos(ΔE · t / ħ)|. L'état oscille périodiquement avec ‖A(t + π ħ / ΔE)‖ = ‖A(t)‖ sans amortissement ni perte d'information.
+
+*Module formel :* [`NRS3Penrose/Penrose1996_SpeedLimit.lean`](NRS3Penrose/Penrose1996_SpeedLimit.lean) (`twoBranch_orthogonal`, `twoBranch_periodic`).  
 L'invariance par translation temporelle de l'évolution unitaire garantit que la fonction d'onde oscille de manière strictement conservative.
 
 ---
