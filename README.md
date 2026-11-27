@@ -7,7 +7,7 @@
 ### Le temps d'effondrement ħ / ΔE est une borne et non une durée de vie : l'amplitude de survie reste strictement supérieure à 1/2
 
 **Eduardo Nava Hernández**  
-*Vérification formelle certifiée en Lean 4 · 0 sorry · Mathlib (<code>ZFC</code>)*
+*Vérification formelle certifiée en Lean 4 · `0 sorry` · Mathlib (<code>ZFC</code>)*
 
 [![Lean 4](https://img.shields.io/badge/Lean_4-v4.35.0-blue.svg?style=flat-square)](https://leanprover.github.io/)
 [![Mathlib](https://img.shields.io/badge/Mathlib-vérifié-2ea44f.svg?style=flat-square)](https://github.com/leanprover-community/mathlib4)
@@ -29,7 +29,7 @@
 > <picture><source media="(prefers-color-scheme: dark)" srcset="assets/oscuro/plaque_penrose_master.png"><img src="assets/claro/plaque_penrose_master.png" alt="Plaque maîtresse : l'amplitude de survie au temps de Penrose et la vitesse limite de Mandelstam-Tamm" width="860"></picture>
 > </div>
 >
-> **1 · L'amplitude de survie au temps de Penrose.** À l'instant exact `t = ħ / ΔE`, toute évolution unitaire préserve une amplitude `‖A(t)‖ ≥ cos 1 ≈ 0.5403 > 1/2` : l'état ne s'est pas désintégré.
+> **1 · L'amplitude de survie au temps de Penrose.** À l'instant exact `t = ħ / ΔE`, toute évolution unitaire préserve une amplitude ‖A(t)‖ ≥ cos 1 ≈ 0.5403 > 1/2 : l'état ne s'est pas désintégré.
 >
 > **2 · Vitesse limite absolue.** Aucun état quantique ne peut atteindre l'orthogonalité (l'effondrement physique observable) avant l'instant critique `t = πħ / (2ΔE)`.
 >
@@ -43,10 +43,10 @@
 
 *Convention : le module Lean pose ħ = 1 ; les formules ci-dessous restituent ħ.*
 
-* Pour tout état pur ou mélange, l'amplitude de survie sous dispersion d'énergie `ΔE` satisfait la borne parabolique `‖A(t)‖ ≥ 1 − ΔE² t² / (2ħ²)` : [`NRS3Penrose/Penrose1996_SpeedLimit.lean`](NRS3Penrose/Penrose1996_SpeedLimit.lean) (`one_sub_le_norm_amplitude`).
-* Au temps d'échelle de Penrose `t = ħ / ΔE`, la norme de l'amplitude vérifie `‖A(t)‖ ≥ cos 1` : [`NRS3Penrose/Penrose1996_SpeedLimit.lean`](NRS3Penrose/Penrose1996_SpeedLimit.lean) (`cos_one_le_norm_amplitude`).
+* Pour tout état pur ou mélange, l'amplitude de survie sous dispersion d'énergie `ΔE` satisfait la borne parabolique ‖A(t)‖ ≥ 1 − ΔE² t² / (2ħ²) : [`NRS3Penrose/Penrose1996_SpeedLimit.lean`](NRS3Penrose/Penrose1996_SpeedLimit.lean) (`one_sub_le_norm_amplitude`).
+* Au temps d'échelle de Penrose `t = ħ / ΔE`, la norme de l'amplitude vérifie ‖A(t)‖ ≥ cos 1 : [`NRS3Penrose/Penrose1996_SpeedLimit.lean`](NRS3Penrose/Penrose1996_SpeedLimit.lean) (`cos_one_le_norm_amplitude`).
 * Comme `cos 1 > 1/2`, l'état superposé possède encore plus de la moitié de sa cohérence initiale : [`NRS3Penrose/Penrose1996_SpeedLimit.lean`](NRS3Penrose/Penrose1996_SpeedLimit.lean) (`half_lt_norm_amplitude`).
-* Aucune orthogonalité `A(t) = 0` n'est possible avant le seuil géométrique `t ≥ πħ / (2ΔE)` de Mandelstam–Tamm : [`NRS3Penrose/Penrose1996_SpeedLimit.lean`](NRS3Penrose/Penrose1996_SpeedLimit.lean) (`speed_limit`).
+* Aucune orthogonalité `A(t) = 0` n'est possible avant le seuil géométrique t ≥ πħ / (2ΔE) de Mandelstam–Tamm : [`NRS3Penrose/Penrose1996_SpeedLimit.lean`](NRS3Penrose/Penrose1996_SpeedLimit.lean) (`speed_limit`).
 * Dans le cas symétrique à deux branches, l'orthogonalité exacte a lieu en `t = πħ / (2ΔE)` : [`NRS3Penrose/Penrose1996_SpeedLimit.lean`](NRS3Penrose/Penrose1996_SpeedLimit.lean) (`twoBranch_orthogonal`).
 * Cette superposition retourne périodiquement à l'unité sans amortissement : [`NRS3Penrose/Penrose1996_SpeedLimit.lean`](NRS3Penrose/Penrose1996_SpeedLimit.lean) (`twoBranch_periodic`).
 
@@ -139,7 +139,7 @@ L'invariance par translation temporelle de l'évolution unitaire garantit que la
 | [`01 · nava-robertson-schrodinger`](https://github.com/naype888-cloud/nava-robertson-schrodinger) | Le canon : l'incertitude élémentaire dimensionnelle sur le cube ouvert, ℂᵈ ⊗ ℂᵈ ⊗ ℂᵈ |
 | [`02 · Proper-Time-General-Relativity`](https://github.com/naype888-cloud/Proper-Time-General-Relativity) | Le temps compte les pas : τ = 1/(φ\|t\|) à quatre sites ; masse effective, équivalence, gravitation |
 | [`03 · nrs3-mandelstam-tamm-cramer-rao`](https://github.com/naype888-cloud/nrs3-mandelstam-tamm-cramer-rao) | Mandelstam–Tamm et Cramér–Rao : aucun état n'est orthogonal à lui-même avant πħ/(2ΔE) |
-| [`04 · YM-By-Perelmans-surgery-method`](https://github.com/naype888-cloud/YM-By-Perelmans-surgery-method) | Yang–Mills sur réseau : loi d'aire uniforme, matrice de transfert, défaut de fibre (0 sorry) |
+| [`04 · YM-By-Perelmans-surgery-method`](https://github.com/naype888-cloud/YM-By-Perelmans-surgery-method) | Yang–Mills sur réseau : loi d'aire uniforme, matrice de transfert, défaut de fibre (`0 sorry`) |
 | [`05 · nrs3-tightbinding`](https://github.com/naype888-cloud/nrs3-tightbinding) | La chaîne de Physlib, le cube ouvert et la table périodique (H–Og), un cube 3D par élément |
 | [`06 · nrs3-cristales`](https://github.com/naype888-cloud/nrs3-cristales) | Cristaux : la symétrie donne la forme de Σ et Ω, le spectre donne la taille |
 | [`07 · nrs3-completude`](https://github.com/naype888-cloud/nrs3-completude) | Complétude constructive et limites spectrales par Robertson–Fiedler–Niven–Szegő |
@@ -150,7 +150,7 @@ L'invariance par translation temporelle de l'évolution unitaire garantit que la
 | [**12 · nrs3-penrose**](https://github.com/naype888-cloud/nrs3-penrose) | Effondrement gravitationnel de Diósi–Penrose : temps de décohérence par auto-énergie *(ce dépôt)* |
 | [`13 · nrs3-rovelli-lqg`](https://github.com/naype888-cloud/nrs3-rovelli-lqg) | Gravité quantique à boucles : spectre d'aire discrète, opérateur de surface et saturation de spin |
 | [`14 · nrs3-uncertainty-cone`](https://github.com/naype888-cloud/nrs3-uncertainty-cone) | Cône de lumière futur et cercle de Minkowski : structure causale sous revêtement SL(2, ℂ) |
-| [`15 · lean4-commits`](https://github.com/naype888-cloud/lean4-commits) | 53 PRs fusionnées dans leanprover-community/physlib : catalogue de preuves formelles, 0 sorry, ZFC |
+| [`15 · lean4-commits`](https://github.com/naype888-cloud/lean4-commits) | 53 PRs fusionnées dans leanprover-community/physlib : catalogue de preuves formelles, `0 sorry`, ZFC |
 ---
 
 ## ⏱️ Chronologie
