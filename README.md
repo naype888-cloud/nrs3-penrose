@@ -2,7 +2,8 @@
 
 <div align="center">
 
-# RS<sup>N</sup>³ · Penrose
+<picture><source media="(prefers-color-scheme: dark)" srcset="assets/oscuro/titre_penrose.png"><img src="assets/claro/titre_penrose.png" alt="RS^N³ · Penrose" width="860"></picture>
+**"RS<sup>N</sup>³ · Penrose"**
 ### Le temps d'effondrement ħ / ΔE est une borne et non une durée de vie : l'amplitude de survie reste strictement supérieure à 1/2
 
 **Eduardo Nava Hernández**  
