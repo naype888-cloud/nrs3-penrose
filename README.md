@@ -6,7 +6,7 @@
 ### Le temps d'effondrement ħ / ΔE est une borne et non une durée de vie : l'amplitude de survie reste strictement supérieure à 1/2
 
 **Eduardo Nava Hernández**  
-*Vérification formelle certifiée en Lean 4 · 0 sorry · Mathlib (ZFC)*
+*Vérification formelle certifiée en Lean 4 · 0 sorry · Mathlib (<code>ZFC</code>)*
 
 [![Lean 4](https://img.shields.io/badge/Lean_4-v4.35.0-blue.svg?style=flat-square)](https://leanprover.github.io/)
 [![Mathlib](https://img.shields.io/badge/Mathlib-vérifié-2ea44f.svg?style=flat-square)](https://github.com/leanprover-community/mathlib4)
@@ -109,7 +109,7 @@ L'invariance par translation temporelle de l'évolution unitaire garantit que la
 
 | PR Physlib | Titre | Lien avec ce dépôt | Statut |
 |:---:|:---|:---|:---:|
-| [**#1711**](https://github.com/leanprover-community/physlib/pull/1711) | Mandelstam–Tamm and Cramér–Rao in the open tight binding chain | La borne de Mandelstam–Tamm `|⟨J⟩| ≤ 2 ΔH ΔX` sur la chaîne ouverte : la même inégalité temps–énergie que les étapes 1 et 3 | **MERGED** |
+| [**#1711**](https://github.com/leanprover-community/physlib/pull/1711) | Mandelstam–Tamm and Cramér–Rao in the open tight binding chain | La borne de Mandelstam–Tamm `\|⟨J⟩\| ≤ 2 ΔH ΔX` sur la chaîne ouverte : la même inégalité temps–énergie que les étapes 1 et 3 | **MERGED** |
 | [**#1739**](https://github.com/leanprover-community/physlib/pull/1739) | Mandelstam–Tamm and Cramér–Rao in the maximal current state | Dans l'état de courant maximal, le rapport de Mandelstam–Tamm vaut `1/C_N²` | **MERGED** |
 
 ---
@@ -136,7 +136,7 @@ L'invariance par translation temporelle de l'évolution unitaire garantit que la
 |:---|:---|
 | [`00 · bacqm-substrate`](https://github.com/naype888-cloud/bacqm-systems) | Substrat matériel & moteur du noyau Linux : modules de mémoire dynamiques en temps réel |
 | [`01 · nava-robertson-schrodinger`](https://github.com/naype888-cloud/nava-robertson-schrodinger) | Le canon : l'incertitude élémentaire dimensionnelle sur le cube ouvert, ℂᵈ ⊗ ℂᵈ ⊗ ℂᵈ |
-| [`02 · Proper-Time-General-Relativity`](https://github.com/naype888-cloud/Proper-Time-General-Relativity) | Le temps compte les pas : τ = 1/(φ|t|) à quatre sites ; masse effective, équivalence, gravitation |
+| [`02 · Proper-Time-General-Relativity`](https://github.com/naype888-cloud/Proper-Time-General-Relativity) | Le temps compte les pas : τ = 1/(φ\|t\|) à quatre sites ; masse effective, équivalence, gravitation |
 | [`03 · nrs3-mandelstam-tamm-cramer-rao`](https://github.com/naype888-cloud/nrs3-mandelstam-tamm-cramer-rao) | Mandelstam–Tamm et Cramér–Rao : aucun état n'est orthogonal à lui-même avant πħ/(2ΔE) |
 | [`04 · YM-By-Perelmans-surgery-method`](https://github.com/naype888-cloud/YM-By-Perelmans-surgery-method) | Yang–Mills sur réseau : loi d'aire uniforme, matrice de transfert, défaut de fibre (0 sorry) |
 | [`05 · nrs3-tightbinding`](https://github.com/naype888-cloud/nrs3-tightbinding) | La chaîne de Physlib, le cube ouvert et la table périodique (H–Og), un cube 3D par élément |
